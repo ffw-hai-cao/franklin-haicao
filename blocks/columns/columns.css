@@ -1,6 +1,8 @@
 .columns > div {
   display: flex;
   flex-direction: column;
+  border-radius: 50px;
+  overflow: hidden;
 }
 
 .columns img {
@@ -25,7 +27,6 @@
     flex-direction: unset;
     gap: 32px;
   }
-
   .columns > div > div {
     flex: 1;
     order: unset;
