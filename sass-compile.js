@@ -11,7 +11,7 @@ const ignoredFiles = [];
 const compileAndSave = async (sassFile) => {
     const dest = sassFile.replace(path.extname(sassFile), ".css");
 
-    fs.writeFile(dest, sass.compile(sassFile).css, (err) => {
+    fs.writeFile(dest, sass.compile(sassFile, {style: "compressed"}).css, (err) => {
         if (err) console.log(err);
         console.log(`Compiled ${sassFile} to ${dest}`);
     });
