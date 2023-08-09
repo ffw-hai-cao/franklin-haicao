@@ -40,8 +40,8 @@ function loadGsap() {
   const sectionFiveHeight = document.getElementById('section-5').offsetHeight;
 
   const yScrollToSectionFour = sectionThreeHeight + 128;
-  const yScrollToSectionFive = yScrollToSectionFour + sectionFourHeight + 128;
-  const yScrollToSectionSix = yScrollToSectionFive + sectionFiveHeight + 128;
+  const yScrollToSectionFive = yScrollToSectionFour + sectionFourHeight;
+  const yScrollToSectionSix = yScrollToSectionFive + sectionFiveHeight;
 
   console.log(yScrollToSectionFour);
   console.log(yScrollToSectionFive);
