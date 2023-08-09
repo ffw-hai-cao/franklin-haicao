@@ -33,6 +33,20 @@ function hide(elem) {
 }
 
 function loadGsap() {
+  const containerWidth = document.querySelector('.section>div').offsetWidth;
+  const xScroll = (containerWidth / 2) + 152;
+  const sectionThreeHeight = document.getElementById('section-3').offsetHeight;
+  const sectionFourHeight = document.getElementById('section-4').offsetHeight;
+  const sectionFiveHeight = document.getElementById('section-5').offsetHeight;
+
+  const yScrollToSectionFour = sectionThreeHeight + 128;
+  const yScrollToSectionFive = yScrollToSectionFour + sectionFourHeight + 128;
+  const yScrollToSectionSix = yScrollToSectionFive + sectionFiveHeight + 128;
+
+  console.log(yScrollToSectionFour);
+  console.log(yScrollToSectionFive);
+  console.log(yScrollToSectionSix);
+
   // Initialize ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
 
@@ -61,8 +75,8 @@ function loadGsap() {
     },
     width: '400px',
     maxWidth: 'none',
-    y: 800,
-    x: -730,
+    y: yScrollToSectionFour,
+    x: -xScroll,
     ease: 'power1.out',
   });
   // Animation for section 4
@@ -76,8 +90,8 @@ function loadGsap() {
       scrub: true,
     },
     width: '600px',
-    x: -400,
-    y: 1600,
+    x: -(xScroll / 2),
+    y: yScrollToSectionFive,
   });
   // Animation for section 5 and 6
   gsap.fromTo('.image-gsap img', {
@@ -91,7 +105,7 @@ function loadGsap() {
     },
     width: '256px',
     x: 0,
-    y: 2200,
+    y: yScrollToSectionSix,
   });
 }
 
