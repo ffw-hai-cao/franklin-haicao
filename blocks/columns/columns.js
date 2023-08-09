@@ -5,6 +5,8 @@ export default function decorate(block) {
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
+      col.classList.add('gs_reveal');
+
       const pic = col.querySelector('picture');
       if (pic) {
         const picWrapper = pic.closest('div');

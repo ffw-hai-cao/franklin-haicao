@@ -1,22 +1,53 @@
 /* eslint-disable no-use-before-define */
+/* eslint-disable func-names */
 /* eslint-disable no-undef */
+/* eslint-disable no-bitwise */
+/* eslint-disable no-param-reassign */
+/* eslint-disable object-shorthand */
 import { loadScript } from '../../scripts/lib-franklin.js';
+
+function animateFrom(elem, direction) {
+  direction |= 1;
+
+  let x = 0;
+  let y = direction * 100;
+  if (elem.classList.contains('gs_reveal_fromLeft')) {
+    x = -100;
+    y = 0;
+  } else if (elem.classList.contains('gs_reveal_fromRight')) {
+    x = 100;
+    y = 0;
+  }
+  gsap.fromTo(elem, { x: x, y: y, autoAlpha: 0 }, {
+    duration: 1.25,
+    x: 0,
+    y: 0,
+    autoAlpha: 1,
+    ease: 'expo',
+    overwrite: 'auto',
+  });
+}
+
+function hide(elem) {
+  gsap.set(elem, { autoAlpha: 0 });
+}
 
 function loadGsap() {
   // Initialize ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
 
-  // Animation for section 3
-  gsap.to('.image-gsap img', {
-    scrollTrigger: {
-      trigger: '#section-3',
-      start: 'bottom bottom',
-      end: 'bottom bottom',
-      scrub: true,
-    },
-    width: '256px',
-    opacity: 1,
-  });
+  const reveals = gsap.utils.toArray('.gs_reveal');
+  for (let i = 0; i < reveals.length; i += 1) {
+    const elem = reveals[i];
+    hide(elem); // assure that the element is hidden when scrolled into view
+
+    ScrollTrigger.create({
+      trigger: elem,
+      onEnter: () => { animateFrom(elem); },
+      onEnterBack: () => { animateFrom(elem, -1); },
+      onLeave: () => { hide(elem); },
+    });
+  }
 
   // Animation for section 3
   gsap.fromTo('.image-gsap img', {
@@ -29,8 +60,9 @@ function loadGsap() {
       scrub: true,
     },
     width: '400px',
-    bottom: 0,
-    left: 0,
+    maxWidth: 'none',
+    y: 800,
+    x: -730,
     ease: 'power1.out',
   });
   // Animation for section 4
@@ -44,6 +76,8 @@ function loadGsap() {
       scrub: true,
     },
     width: '600px',
+    x: -400,
+    y: 1600,
   });
   // Animation for section 5 and 6
   gsap.fromTo('.image-gsap img', {
@@ -56,9 +90,8 @@ function loadGsap() {
       scrub: true,
     },
     width: '256px',
-    bottom: 0,
-    right: 0,
-    left: 'auto',
+    x: 0,
+    y: 2200,
   });
 }
 
@@ -69,6 +102,8 @@ export default async function decorate(block) {
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
+      // col.classList.add('gs_reveal');
+
       const pic = col.querySelector('picture');
       if (pic) {
         const picWrapper = pic.closest('div');
@@ -83,6 +118,7 @@ export default async function decorate(block) {
 
   const sections = document.querySelectorAll('.section');
   sections.forEach((section, index) => {
+    // section.classList.add('gs_reveal');
     section.setAttribute('id', `section-${index + 1}`);
   });
 
